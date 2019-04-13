@@ -3,11 +3,7 @@ const mongodb = require('mongodb');
 
 const router = express.Router();
 
-// Get Posts
-router.get('/', async (req, res) => {
-  const posts = await loadPostsCollection();
-  res.send(await posts.find({}).toArray());
-});
+
 
 // Add Post
 router.post('/', async (req, res) => {
@@ -25,6 +21,12 @@ router.post('/', async (req, res) => {
   res.status(201).send();
 });
 
+// Get Posts
+router.get('/', async (req, res) => {
+    const posts = await loadPostsCollection();
+    res.send(await posts.find({}).toArray());
+  });
+  
 // Delete Post
 router.delete('/:id', async (req, res) => {
   const posts = await loadPostsCollection();
