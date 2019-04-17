@@ -30,7 +30,7 @@
         <input type="radio" name="input-value" value="2" v-model="pickedTrue">
         
       </div>
-      <br><span id="create-post">Resposta verdadeira: {{ pickedTrue }}</span>
+      <br><span id="create-post" >Resposta verdadeira: {{ pickedTrue }}</span>
       <br>
       <button v-on:click="createPost" id="btn-creator">Criar Questão!</button>
     </div>
@@ -47,11 +47,11 @@
         {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
         <p class="text">{{ post.text }}</p>
         <div>
-          <input type="radio" name="choise-area" class="text" value="1">{{ post.questionOne }}<br>
-          <input type="radio" name="choise-area" class="text" value="2">{{ post.questionTwo }}
+          <input type="checkbox" name="choise-area" class="text-value" value="1">{{ post.questionOne }}<br>
+          <input type="checkbox" name="choise-area" class="text-value" value="2">{{ post.questionTwo }}
         </div>
 
-        <p class="text true-question">Resposta verdadeira: <span>{{ post.pickedTrue }}</span></p>
+        <p class="text">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
         <p style="font-size: 10px;">created by: {{post.user}}</p>
         <br><button class="btn-submit" >Submit!</button>
         <button class="btn-delete" v-if="post.password == password || post.password == null" v-on:click="deletePost(post._id)">Delete!</button>
@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <button class="btn-submit" >Veja sua pontuação</button>
+    <button class="btn-submit" v-on:click="calculateFinalScore()" >Veja sua pontuação</button>
   </div>
 </template>
 
@@ -98,6 +98,30 @@ export default {
       if(document.querySelector(".btn-delete") != null || document.querySelector(".main-container-question") == null){
         document.getElementById("btn-creator").style.display = 'initial'
       }
+    },
+    calculateFinalScore: function() {
+      var numbersOfCards = document.getElementsByClassName("main-container-question").length
+      var finalResult = 0
+
+      for (var i = numbersOfCards - 1; i >= 0; i--) {
+        var numberOfOptions = document.getElementsByClassName("main-container-question")[i].getElementsByClassName("text-value").length
+        
+        for (var j = 0; j <= numberOfOptions - 1; j++) {
+          var checkedValue = document.getElementsByClassName("main-container-question")[i].getElementsByClassName("text-value")[j].checked
+          if (checkedValue){
+            var questionChecked = j + 1;
+          }
+        }
+
+        var trueResponse = document.getElementsByClassName("true-response")[i].innerText
+
+        if(trueResponse == questionChecked){
+          finalResult = finalResult + 1;
+        }
+      }
+      finalResult = finalResult/numbersOfCards * 100;
+
+      return alert("Voce acertou " + finalResult + "% do teste!")
     },
     even: function (posts, email) {
       return posts.filter(function (post) {
