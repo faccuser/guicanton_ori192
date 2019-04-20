@@ -13,54 +13,61 @@
       <input type="text" id="create-post" v-model="email" placeholder="Busque seu tema">
     </div><br>
 
-    
-    <div class="create-post form-active">
-      <h2>Crie seu formulário!</h2>
+    <div class="post-center">
+      <div class="create-post form-active">
+        <h2>Crie seu formulário!</h2>
 
-      <label for="create-post">Nome da questão: </label>
-      <input type="text" v-on:click="startBlock()" id="create-post" v-model="text" placeholder="Create a Question">
-      <div>
-        <label for="create-post">Primeira opção: </label>
-        <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionOne" placeholder="First Option">
-        <input type="radio" name="input-value" value="1" v-model="pickedTrue">
-        
-        <br>
-        <label for="create-post">Segunda opção: </label>
-        <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionTwo" placeholder="Second Option">
-        <input type="radio" name="input-value" value="2" v-model="pickedTrue">
-        
-      </div>
-      <br><span id="create-post" >Resposta verdadeira: {{ pickedTrue }}</span>
-      <br>
-      <button v-on:click="createPost" id="btn-creator">Criar Questão!</button>
-    </div>
-
-    <h1>Questions</h1>
-    <p class="error" v-if="error"> {{ error }} </p>
-    <div class="posts-container">
-      <div class="post main-container-question"
-        v-for="(post, index) in even(posts, email)"
-        v-bind:item="post"
-        v-bind:index="index"
-        v-bind:key="post._id"
-      >
-        {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
-        <p class="text">{{ post.text }}</p>
+        <label for="create-post">Nome da questão: </label>
+        <input type="text" v-on:click="startBlock()" id="create-post" v-model="text" placeholder="Create a Question">
         <div>
-          <input type="checkbox" name="choise-area" class="text-value" value="1">{{ post.questionOne }}<br>
-          <input type="checkbox" name="choise-area" class="text-value" value="2">{{ post.questionTwo }}
+          <label for="create-post">Primeira opção: </label>
+          <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionOne" placeholder="First Option">
+          <input type="radio" name="input-value" value="1" v-model="pickedTrue">
+          
+          <br>
+          <label for="create-post">Segunda opção: </label>
+          <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionTwo" placeholder="Second Option">
+          <input type="radio" name="input-value" value="2" v-model="pickedTrue">
+          
         </div>
-
-        <p class="text">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
-        <p style="font-size: 10px;">created by: {{post.user}}</p>
-        <br><button class="btn-submit" >Submit!</button>
-        <button class="btn-delete" v-if="post.password == password || post.password == null" v-on:click="deletePost(post._id)">Delete!</button>
-        <button v-else style="background-color: #b7a5aa;">Delete Lock</button>
-  
+        <br><span id="create-post" >Resposta verdadeira: {{ pickedTrue }}</span>
+        <br>
+        <button v-on:click="createPost" v-if="email.length > 0" id="btn-creator">Criar Questão!</button>
+        <button v-else style="background-color: #b7a5aa;">Criar Lock</button>
       </div>
+
+      <h1>Questions</h1>
+      <p class="error" v-if="error"> {{ error }} </p>
+      <div class="posts-container">
+        <div class="post main-container-question"
+          v-for="(post, index) in even(posts, email)"
+          v-bind:item="post"
+          v-bind:index="index"
+          v-bind:key="post._id"
+        >
+          {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
+          <p class="text">{{ post.text }}</p>
+          <div>
+            <input type="checkbox" name="choise-area" class="text-value" value="1">{{ post.questionOne }}<br>
+            <input type="checkbox" name="choise-area" class="text-value" value="2">{{ post.questionTwo }}
+          </div>
+
+          <p class="text">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
+          <p style="font-size: 10px;">created by: {{post.user}}</p>
+          <br><button class="btn-submit" >Submit!</button>
+          <button class="btn-delete" v-if="post.password == password || post.password == null" v-on:click="deletePost(post._id)">Delete!</button>
+          <button v-else style="background-color: #b7a5aa;">Delete Lock</button>
+    
+        </div>
+       </div> 
     </div>
 
-    <button class="btn-submit" v-on:click="calculateFinalScore()" >Veja sua pontuação</button>
+    <button class="btn-submit" v-if="email.length > 0" v-on:click="calculateFinalScore()" >Veja sua pontuação</button>
+    <button v-else style="background-color: #b7a5aa;">Pontuação block</button>
+
+    <div id="result-card" style="display: none">
+    </div>
+
   </div>
 </template>
 
@@ -79,7 +86,8 @@ export default {
       questionTwo: '',
       pickedTrue: '',
       user: '',
-      password: ''
+      password: '',
+      finalResult: 0
     }
   },
   async created(){
@@ -121,7 +129,12 @@ export default {
       }
       finalResult = finalResult/numbersOfCards * 100;
 
-      return alert("Voce acertou " + finalResult + "% do teste!")
+      document.getElementById("result-card").style.display = 'initial'
+
+      var element = document.getElementById('result-card');
+      element.innerHTML = '<br><h3>Sua pontuação final é de '  + finalResult +  '%</h3>'
+
+      return finalResult;
     },
     even: function (posts, email) {
       return posts.filter(function (post) {
