@@ -22,13 +22,13 @@ class PostService {
     }
 
     // Create Post
-    static insertPost(text, questionOne, questionTwo, pickedTrue, email, user, password){
+    static insertPost(text, questionOne, questionTwo, pickedTrue, theme, user, password){
         return axios.post(url, {
             text,
             questionOne,
             questionTwo,
             pickedTrue,
-            email,
+            theme,
             user,
             password
         });

@@ -8,7 +8,7 @@
       <!-- <label for="create-post">  Senha: </label> -->
       <input type="password" id="create-post" v-model="password" placeholder="Password">
     </div><br>
-    <h2 class="welcome">Formulário sobre <span style="color: #ce3159;">{{email}}</span></h2>
+    <h2 class="welcome">Formulário sobre <span style="color: #ce3159;">{{email.toLowerCase()}}</span></h2>
     <div>
       <!-- <label for="create-post">Assunto: </label> -->
       <input class="theme-search" type="text" id="create-post" v-model="email" placeholder="Busque seu código tema">
@@ -43,7 +43,7 @@
       <p class="error" v-if="error"> {{ error }} </p>
       <div class="posts-container">
         <div class="post main-container-question"
-          v-for="(post, index) in even(posts, email)"
+          v-for="(post, index) in even(posts, email.toLowerCase())"
           v-bind:item="post"
           v-bind:index="index"
           v-bind:key="post._id"
@@ -153,7 +153,7 @@ export default {
       })
     },
     async createPost(){
-      await PostService.insertPost(this.text, this.questionOne, this.questionTwo, this.pickedTrue, this.email, this.user, this.password);
+      await PostService.insertPost(this.text, this.questionOne, this.questionTwo, this.pickedTrue, this.email.toLowerCase(), this.user, this.password);
       this.posts = await PostService.getPosts();
     },
     async deletePost(id){
