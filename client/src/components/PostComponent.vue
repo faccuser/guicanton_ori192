@@ -1,42 +1,45 @@
 <template>
   <div class="container main-base">
-    <h2>Bem vindo {{user}}!</h2><br>
+    <h2>Bem vindo <span style="color: #ce3159;">{{user}}</span>!</h2><br>
     <div>
-      <label for="create-post">Usuario: </label>
+      <!-- <label for="create-post">Usuario: </label> -->
       <input type="text" id="create-post" v-model="user" placeholder="User">
-      <label for="create-post">  Senha: </label>
+      <br>
+      <!-- <label for="create-post">  Senha: </label> -->
       <input type="password" id="create-post" v-model="password" placeholder="Password">
     </div><br>
-    <h2 class="welcome">Formulario sobre <span style="color: #35495e;">{{email}}</span></h2>
+    <h2 class="welcome">Formulário sobre <span style="color: #ce3159;">{{email}}</span></h2>
     <div>
-      <label for="create-post">Assunto: </label>
-      <input type="text" id="create-post" v-model="email" placeholder="Busque seu tema">
+      <!-- <label for="create-post">Assunto: </label> -->
+      <input class="theme-search" type="text" id="create-post" v-model="email" placeholder="Busque seu código tema">
     </div><br>
 
     <div class="post-center">
       <div class="create-post form-active">
         <h2>Crie seu formulário!</h2>
+        <p class="text-intro">Aqui você pode criar seu próprio formulário de maneira rápida e simples<br></p>
+        
 
-        <label for="create-post">Nome da questão: </label>
-        <input type="text" v-on:click="startBlock()" id="create-post" v-model="text" placeholder="Create a Question">
-        <div>
-          <label for="create-post">Primeira opção: </label>
-          <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionOne" placeholder="First Option">
-          <input type="radio" name="input-value" value="1" v-model="pickedTrue">
+        <!-- <label for="create-post">Nome da questão: </label> -->
+        <input type="text" v-on:click="startBlock()" id="create-post" v-model="text" placeholder="Nome da questão">
+        <div style="margin-top:10px">
+          <!-- <label for="create-post">Primeira opção: </label> -->
+          <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionOne" placeholder="Primeira opção">
+          <input class ="input-question-true" type="radio" name="input-value" value="1" v-model="pickedTrue">
           
           <br>
-          <label for="create-post">Segunda opção: </label>
-          <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionTwo" placeholder="Second Option">
-          <input type="radio" name="input-value" value="2" v-model="pickedTrue">
+          <!-- <label for="create-post">Segunda opção: </label> -->
+          <input type="text" v-on:click="startBlock()" id="create-post" v-model="questionTwo" placeholder="Segunda opção">
+          <input class ="input-question-true" type="radio" name="input-value" value="2" v-model="pickedTrue">
           
         </div>
-        <br><span id="create-post" >Resposta verdadeira: {{ pickedTrue }}</span>
+        <br><span id="create-post" style="font-weight: 700;">Resposta verdadeira será opção: {{ pickedTrue }}</span>
         <br>
         <button v-on:click="createPost" v-if="email.length > 0" id="btn-creator">Criar Questão!</button>
-        <button v-else style="background-color: #b7a5aa;">Criar Lock</button>
+        <button v-else style="background-color: #b7a5aa;">Digite um tema para criar</button>
       </div>
 
-      <h1>Questions</h1>
+      <h1>Questões</h1>
       <p class="error" v-if="error"> {{ error }} </p>
       <div class="posts-container">
         <div class="post main-container-question"
@@ -45,17 +48,25 @@
           v-bind:index="index"
           v-bind:key="post._id"
         >
-          {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
+          
           <p class="text">{{ post.text }}</p>
           <div>
-            <input type="checkbox" name="choise-area" class="text-value" value="1">{{ post.questionOne }}<br>
-            <input type="checkbox" name="choise-area" class="text-value" value="2">{{ post.questionTwo }}
+            <div class="input-choise-area">
+              {{ post.questionOne }}<input type="checkbox" name="choise-area" class="text-value" value="1">
+            </div>
+            <br>
+            <div class="input-choise-area">
+              {{ post.questionTwo }}<input type="checkbox" name="choise-area" class="text-value" value="2">
+            </div>
           </div>
 
           <p class="text">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
-          <p style="font-size: 10px;">created by: {{post.user}}</p>
+          <p style="font-size: 12px;">created by: {{post.user}} 
+            <br>
+            at: {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
+          </p>
           <br><button class="btn-submit" >Submit!</button>
-          <button class="btn-delete" v-if="post.password == password || post.password == null" v-on:click="deletePost(post._id)">Delete!</button>
+          <button class="btn-delete" v-if="post.password == password && post.user == user || post.password == null " v-on:click="deletePost(post._id)">Delete!</button>
           <button v-else style="background-color: #b7a5aa;">Delete Lock</button>
     
         </div>
@@ -63,7 +74,7 @@
     </div>
 
     <button class="btn-submit" v-if="email.length > 0" v-on:click="calculateFinalScore()" >Veja sua pontuação</button>
-    <button v-else style="background-color: #b7a5aa;">Pontuação block</button>
+    <button v-else style="background-color: #b7a5aa;">Pontuação bloqueada</button>
 
     <div id="result-card" style="display: none">
     </div>
@@ -175,21 +186,22 @@ a {
   color: #42b983;
 }
 .post {
-    background-color: #f3f2f5;
-    width: 280px;
-    border-radius: 5px;
+    width: 300px;
     margin: 15px auto;
     font-size: 19px;
     font-family: sans-serif;
     font-weight: 700;
-    color: black;
-    -webkit-box-shadow: 0px 2px 8px 2px rgb(208, 208, 208);
-    box-shadow: 0px 2px 8px 2px rgb(179, 190, 195);
+    color: white;
+    letter-spacing: 0.5px;
     padding: 10px;
+    border-radius: 5px;
+    background-color: #313131;
+    border: solid 1.5px;
+    border-color: #585858;
 }
 button {
-    padding: 15px 110px;
-    background-color: #ff2b5d;
+    padding: 3% 10%;
+    background-color: #ce3159;
     color: white;
     font-size: 18px;
     font-weight: 700;
@@ -203,11 +215,17 @@ button:hover {
     opacity: 0.7;
 }
 input#create-post {
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    border-radius: 15px;
-    color: #22476f;
-    border-style: double;
+    margin-bottom: 10px;
+    width: 55%;
+    height: 35px;
+    padding: 5px 25px;
+    background-color: #313131;
+    background-image: none;
+    border: 1px solid #a5a5a5;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
 }
 button.btn-submit {
     padding: 15px 60px;
@@ -220,18 +238,54 @@ button#btn-creator {
 .create-post {
     max-width: 700px;
     margin: auto;
-    background-color: #f3f2f5;
+    background-color: #202225;
     padding: 10px;
+    padding-bottom: 25px;
     border-radius: 5px;
-    box-shadow: 0px 2px 8px 2px rgb(179, 190, 195);
+    border: solid 1.5px;
+    border-color: #585858;
 }
 .container.main-base {
-    max-width: 1100px;
-    border-radius: 5px;
+    max-width: 725px;
     padding: 20px;
     margin: 15px auto;
-    -webkit-box-shadow: 1px 1px 10px 0px rgba(255, 51, 92, 0.41);
-    box-shadow: 5px 3px 44px 0px rgba(152, 152, 152, 0.69);
-    background-color: white;
+    background-color: #202225;
+    border-radius: 8px;
+    border: solid 1.5px;
+    border-color: #585858;
+    transition: 1s;
+}
+input.input-question-true{
+    position: absolute;
+    margin-left: -38px;
+    margin-top: 13px;
+    height: 22px;
+    width: 25px;
+    background-color: #5c63fd;
+}
+p.text-intro {
+    font-size: 16px;
+    padding-bottom: 65px;
+    font-weight: 600;
+    color: #ce3159;
+    width: 85%;
+    margin: auto;
+}
+.input-choise-area {
+    padding: 12px 2px;
+    background-color: #313131;
+    background-image: none;
+    border: 1px solid #a5a5a5;
+    border-radius: 30px;
+}
+p.text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ce3159;
+}
+@media (max-width: 600px) {
+  input#create-post {
+      width: 80%;
+  }
 }
 </style>

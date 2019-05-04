@@ -10,13 +10,13 @@
 
 <script>
 import PostComponent from './components/PostComponent.vue'
-import ResultComponent from './components/ResultComponent.vue'
+
 
 export default {
   name: 'app',
   components: {
     PostComponent,
-    ResultComponent
+    
   },
   methods: {
     calculateFinalScore: function() {
@@ -58,10 +58,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #ffffff;
   margin-top: 60px;
 }
 body {
-    background: #ffeeee !important;
+    background: #464646 !important;
 }
 </style>
