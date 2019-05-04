@@ -61,13 +61,15 @@
           </div>
 
           <p v-if="post.password == password && post.user == user">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
+          <p v-else style="display: none;"><span class="true-response">{{ post.pickedTrue }}</span></p>
+
           <p style="font-size: 12px;">Criado por: {{post.user}} 
             <br><br>
             Em: {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
           </p>
           <br><button class="btn-submit" >Submit!</button>
           <button class="btn-delete" v-if="post.password == password && post.user == user || post.password == null " v-on:click="deletePost(post._id)">Deletar!</button>
-          <button class="btn-delete" v-else style="background-color: #b7a5aa;">Deletar</button>
+          <button class="btn-delete-off" v-else style="background-color: #b7a5aa;">Deletar</button>
 
     
         </div>
@@ -141,10 +143,10 @@ export default {
       }
       finalResult = finalResult/numbersOfCards * 100;
 
-      document.getElementById("result-card").style.display = 'initial'
+      document.getElementById("result-card").style.display = 'block'
 
       var element = document.getElementById('result-card');
-      element.innerHTML = '<br><h1>Sua pontuação final é de '  + finalResult +  '%</h1>'
+      element.innerHTML = '<h1>Sua pontuação final é de '  + finalResult +  '%</h1>'
 
       return finalResult;
     },
@@ -293,6 +295,25 @@ p.text {
 }
 button.btn-delete {
     padding: 5% 40%;
+}
+input.text-value[name="choise-area"] {
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 0px;
+    height: 22px;
+    width: 25px;
+    -webkit-appearance: radio;
+}
+div#result-card {
+    background-color: #313131;
+    border: solid 1.5px;
+    border-radius: 5px;
+    border-color: #ce3159;
+    width: 500px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    transition: 1.5s;
 }
 
 /* Smartphone */
