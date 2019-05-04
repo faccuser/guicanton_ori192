@@ -33,7 +33,7 @@
           <input class ="input-question-true" type="radio" name="input-value" value="2" v-model="pickedTrue">
           
         </div>
-        <br><span id="create-post" style="font-weight: 700;">Resposta verdadeira será opção: {{ pickedTrue }}</span>
+        <br><span id="create-post" style="font-weight: 700; ">Resposta verdadeira será opção: {{ pickedTrue }}</span>
         <br>
         <button v-on:click="createPost" v-if="email.length > 0" id="btn-creator">Criar Questão!</button>
         <button v-else style="background-color: #b7a5aa;">Digite um tema para criar</button>
@@ -43,7 +43,7 @@
       <p class="error" v-if="error"> {{ error }} </p>
       <div class="posts-container">
         <div class="post main-container-question"
-          v-for="(post, index) in even(posts, email.toLowerCase())"
+          v-for="(post, index) in even(posts, email)"
           v-bind:item="post"
           v-bind:index="index"
           v-bind:key="post._id"
@@ -60,21 +60,22 @@
             </div>
           </div>
 
-          <p class="text">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
-          <p style="font-size: 12px;">created by: {{post.user}} 
-            <br>
-            at: {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
+          <p v-if="post.password == password && post.user == user">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
+          <p style="font-size: 12px;">Criado por: {{post.user}} 
+            <br><br>
+            Em: {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
           </p>
           <br><button class="btn-submit" >Submit!</button>
-          <button class="btn-delete" v-if="post.password == password && post.user == user || post.password == null " v-on:click="deletePost(post._id)">Delete!</button>
-          <button v-else style="background-color: #b7a5aa;">Delete Lock</button>
+          <button class="btn-delete" v-if="post.password == password && post.user == user || post.password == null " v-on:click="deletePost(post._id)">Deletar!</button>
+          <button class="btn-delete" v-else style="background-color: #b7a5aa;">Deletar</button>
+
     
         </div>
        </div> 
     </div>
 
     <button class="btn-submit" v-if="email.length > 0" v-on:click="calculateFinalScore()" >Veja sua pontuação</button>
-    <button v-else style="background-color: #b7a5aa;">Pontuação bloqueada</button>
+    <button v-else style="background-color: #b7a5aa;">Pontuação Bloqueada</button>
 
     <div id="result-card" style="display: none">
     </div>
@@ -143,7 +144,7 @@ export default {
       document.getElementById("result-card").style.display = 'initial'
 
       var element = document.getElementById('result-card');
-      element.innerHTML = '<br><h3>Sua pontuação final é de '  + finalResult +  '%</h3>'
+      element.innerHTML = '<br><h1>Sua pontuação final é de '  + finalResult +  '%</h1>'
 
       return finalResult;
     },
@@ -186,7 +187,7 @@ a {
   color: #42b983;
 }
 .post {
-    width: 300px;
+    width: 330px;
     margin: 15px auto;
     font-size: 19px;
     font-family: sans-serif;
@@ -200,7 +201,7 @@ a {
     border-color: #585858;
 }
 button {
-    padding: 3% 10%;
+    padding: 3% 22%;
     background-color: #ce3159;
     color: white;
     font-size: 18px;
@@ -261,7 +262,6 @@ input.input-question-true{
     margin-top: 13px;
     height: 22px;
     width: 25px;
-    background-color: #5c63fd;
 }
 p.text-intro {
     font-size: 16px;
@@ -281,11 +281,31 @@ p.text-intro {
 p.text {
     font-size: 24px;
     font-weight: 600;
-    color: #ce3159;
+    border-radius: 5px 5px 0px 0px;
+    background: #ce3159;
+    height: auto;
+    padding: 25px 0px 25px 0px;
+    color: white;
+    width: 351px;
+    position: relative;
+    top: -36px;
+    left: -11px;
 }
+button.btn-delete {
+    padding: 5% 40%;
+}
+
+/* Smartphone */
 @media (max-width: 600px) {
   input#create-post {
       width: 80%;
+  }
+  .post{
+    width: 294px;
+    margin: auto;
+  }
+  p.text{
+    width: 315px;
   }
 }
 </style>
