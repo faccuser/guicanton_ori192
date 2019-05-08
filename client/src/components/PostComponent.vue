@@ -319,10 +319,11 @@ div#result-card {
     border-radius: 0px 0px 5px 5px;
     background: #ce3159;
     border-color: #ce3159;
-    width: 742px;
-    margin: auto -20px;
+    width: 744px;
+    margin: auto -21px;
     margin-top: 20px;
     padding: 10px;
+    -webkit-transition: 1.5s;
     transition: 1.5s;
     position: relative;
     top: 20px;
@@ -353,7 +354,13 @@ h1.app-custom-name {
     font-weight: 100;
     text-transform: lowercase;
 }
-
+input#create-post:focus {
+    border-style: solid;
+    border-color: #ce3159;
+    outline: 0;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
 /* Smartphone */
 @media (max-width: 600px) {
   input#create-post {
