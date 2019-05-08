@@ -1,5 +1,8 @@
 <template>
   <div class="container main-base">
+    <div class="main-image" style='background-image: url("src/img/form_genaretor.jpg")'>
+      <h1 class="app-custom-name">Form Genaretor</h1>
+    </div>
     <h2>Bem vindo <span style="color: #ce3159;">{{user}}</span>!</h2><br>
     <div>
       <!-- <label for="create-post">Usuario: </label> -->
@@ -165,10 +168,15 @@ export default {
     }
   }
 };
+
+const montserrat = require('typeface-montserrat');
+const akronim = require('typeface-akronim');
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 label {
     font-size: 17px;
     font-weight: 700;
@@ -257,6 +265,7 @@ button#btn-creator {
     border: solid 1.5px;
     border-color: #585858;
     transition: 1s;
+    font-family: Montserrat;
 }
 input.input-question-true{
     position: absolute;
@@ -307,13 +316,42 @@ input.text-value[name="choise-area"] {
 div#result-card {
     background-color: #313131;
     border: solid 1.5px;
-    border-radius: 5px;
+    border-radius: 0px 0px 5px 5px;
+    background: #ce3159;
     border-color: #ce3159;
-    width: 500px;
-    margin: auto;
+    width: 742px;
+    margin: auto -20px;
     margin-top: 20px;
     padding: 10px;
     transition: 1.5s;
+    position: relative;
+    top: 20px;
+}
+.main-image {
+    background-color: #313131;
+    border: solid 1.5px;
+    border-radius: 5px 5px 0px 0px;
+    background: #ce3159;
+    border-color: #ce3159;
+    width: 742px;
+    height: 90px;
+    margin: auto -20px;
+    margin-top: 20px;
+    padding: 10px;
+    transition: 1.5s;
+    position: relative;
+    top: -42px;
+}
+h1.app-custom-name {
+    font-family: akronim;
+    text-shadow: 3px 4px #202225;
+    color: #ffffff;
+    font-size: 80px;
+    position: relative;
+    bottom: 65px;
+    letter-spacing: 4px;
+    font-weight: 100;
+    text-transform: lowercase;
 }
 
 /* Smartphone */

@@ -11,6 +11,8 @@
     "heroku": "^7.24.1",
     "ngrok": "^3.1.1",
     "register-service-worker": "^1.6.2",
+    "typeface-akronim": "0.0.69",
+    "typeface-montserrat": "0.0.54",
     "vue": "^2.6.10",
     "vue-cli": "^2.9.6"
   },
