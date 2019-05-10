@@ -1,7 +1,7 @@
 <template>
   <div class="container main-base">
-    <div class="main-image" style='background-image: url("src/img/form_genaretor.jpg")'>
-      <h1 class="app-custom-name">Form Genaretor</h1>
+    <div class="main-image">
+      <h1 class="app-custom-name">Form Generator</h1>
     </div>
     <h2>Bem vindo <span style="color: #ce3159;">{{user}}</span>!</h2><br>
     <div>
@@ -46,7 +46,7 @@
       <p class="error" v-if="error"> {{ error }} </p>
       <div class="posts-container">
         <div class="post main-container-question"
-          v-for="(post, index) in even(posts, email)"
+          v-for="(post, index) in even(posts, email.toLowerCase())"
           v-bind:item="post"
           v-bind:index="index"
           v-bind:key="post._id"
@@ -211,7 +211,7 @@ a {
     border-color: #585858;
 }
 button {
-    padding: 3% 22%;
+    padding: 3% 16%;
     background-color: #ce3159;
     color: white;
     font-size: 18px;
@@ -263,7 +263,7 @@ button#btn-creator {
     background-color: #202225;
     border-radius: 8px;
     border: solid 1.5px;
-    border-color: #585858;
+    border-color: transparent;
     transition: 1s;
     font-family: Montserrat;
 }
@@ -334,8 +334,8 @@ div#result-card {
     border-radius: 5px 5px 0px 0px;
     background: #ce3159;
     border-color: #ce3159;
-    width: 742px;
-    height: 90px;
+    width: 743px;
+    height: 100px;
     margin: auto -20px;
     margin-top: 20px;
     padding: 10px;
@@ -344,15 +344,16 @@ div#result-card {
     top: -42px;
 }
 h1.app-custom-name {
-    font-family: akronim;
+    font-family: unset;
     text-shadow: 3px 4px #202225;
     color: #ffffff;
-    font-size: 80px;
+    font-size: 62px;
     position: relative;
-    bottom: 65px;
+    bottom: 32px;
     letter-spacing: 4px;
-    font-weight: 100;
-    text-transform: lowercase;
+    font-weight: 400;
+    text-transform: uppercase;
+
 }
 input#create-post:focus {
     border-style: solid;
@@ -363,8 +364,18 @@ input#create-post:focus {
 }
 /* Smartphone */
 @media (max-width: 600px) {
+  div#result-card{
+    width: AUTO;
+    font-size: 10px;
+  }
+  h1.app-custom-name{
+    font-size: 41px;
+  }
+  .main-image{
+    width: AUTO;
+  }
   input#create-post {
-      width: 80%;
+    width: 80%;
   }
   .post{
     width: 294px;

@@ -62,6 +62,6 @@ export default {
   margin-top: 60px;
 }
 body {
-    background: #464646 !important;
+  background-image: linear-gradient(#1d1d1d, #383838);
 }
 </style>
