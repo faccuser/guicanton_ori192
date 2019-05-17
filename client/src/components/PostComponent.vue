@@ -56,16 +56,20 @@
           <div>
             <div class="input-choise-area">
               {{ post.questionOne }}<input type="checkbox" name="choise-area" class="text-value" value="1">
+              <span class="count-hits" v-if="post.password == password && post.user == user || post.password == null">5</span>
+              <span class="count-hits" v-else style="display: none"></span>
             </div>
             <br>
             <div class="input-choise-area">
               {{ post.questionTwo }}<input type="checkbox" name="choise-area" class="text-value" value="2">
+              <span class="count-hits" v-if="post.password == password && post.user == user || post.password == null " >2</span>
+              <span class="count-hits" v-else style="display: none"></span>
             </div>
           </div>
 
           <p v-if="post.password == password && post.user == user">Resposta verdadeira: <span class="true-response">{{ post.pickedTrue }}</span></p>
           <p v-else style="display: none;"><span class="true-response">{{ post.pickedTrue }}</span></p>
-
+          <br><br>
           <p style="font-size: 12px;">Criado por: {{post.user}} 
             <br><br>
             Em: {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
@@ -165,12 +169,15 @@ export default {
     async deletePost(id){
       await PostService.deletePost(id);
       this.posts = await PostService.getPosts();
+    },
+    async updatePost(id){
+      await PostService.deletePost(id);
+      this.posts = await PostService.getPosts();
     }
   }
 };
 
 const montserrat = require('typeface-montserrat');
-const akronim = require('typeface-akronim');
 
 </script>
 
@@ -237,6 +244,7 @@ input#create-post {
     font-size: 16px;
     font-weight: 600;
     color: white;
+    transition: 1s;
 }
 button.btn-submit {
     padding: 15px 60px;
@@ -319,21 +327,20 @@ div#result-card {
     border-radius: 0px 0px 5px 5px;
     background: #ce3159;
     border-color: #ce3159;
-    width: 744px;
+    width: 745px;
     margin: auto -21px;
     margin-top: 20px;
     padding: 10px;
     -webkit-transition: 1.5s;
     transition: 1.5s;
     position: relative;
-    top: 20px;
+    top: 23px;
 }
 .main-image {
     background-color: #313131;
-    border: solid 1.5px;
     border-radius: 5px 5px 0px 0px;
-    background: #ce3159;
-    border-color: #ce3159;
+    background-image: linear-gradient(to bottom right, #ce3159, #f53a6a);
+    border-color: transparent;
     width: 743px;
     height: 100px;
     margin: auto -20px;
@@ -361,6 +368,16 @@ input#create-post:focus {
     outline: 0;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
+}
+span.count-hits {
+    color: #ce3159;
+    float: right;
+    margin-right: 5px;
+    font-size: 17px;
+    margin-top: 0px;
+    padding: 1px 5px 0px 6px;
+    border: 1px solid #a5a5a5;
+    border-radius: 23px;
 }
 /* Smartphone */
 @media (max-width: 600px) {
