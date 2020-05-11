@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "mongodb": "^3.1.13",
-    "mongoose": "^5.5.5",
+    "mongoose": "^5.7.5",
     "typeface-russo-one": "0.0.72",
     "vue": "^2.6.10"
   },
